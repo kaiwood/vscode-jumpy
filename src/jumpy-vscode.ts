@@ -18,7 +18,7 @@ let darkDataUriCache: { [index: string]: vscode.Uri } = {};
 let lightDataUriCache: { [index: string]: vscode.Uri } = {};
 
 export function createDataUriCaches(codeArray: string[]) {
-    codeArray.forEach(code => darkDataUriCache[code] = getSvgDataUri(code, 'white', 'black'))
+    codeArray.forEach(code => darkDataUriCache[code] = getSvgDataUri(code, '#FFF200', 'black'))
     codeArray.forEach(code => lightDataUriCache[code] = getSvgDataUri(code, 'black', 'white'))
 }
 
@@ -73,6 +73,7 @@ export function createDecorationOptions(line: number, startCharacter: number, en
 }
 
 function getSvgDataUri(code: string, backgroundColor: string, fontColor: string) {
-    const width = code.length * 7;
-    return vscode.Uri.parse(`data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} 13" height="13" width="${width}"><rect width="${width}" height="13" rx="2" ry="2" style="fill: ${backgroundColor};"></rect><text font-family="Consolas" font-size="11px" fill="${fontColor}" x="1" y="10">${code}</text></svg>`);
+    const width = code.length * 8;
+    const fontFamily = vscode.workspace.getConfiguration().editor.fontFamily;
+    return vscode.Uri.parse(`data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} 13" height="13" width="${width}"><rect width="${width}" height="13" rx="2" ry="2" style="fill: ${backgroundColor};"></rect><text font-family="${fontFamily}" font-size="11px" fill="${fontColor}" x="1" y="10">${code}</text></svg>`);
 }
